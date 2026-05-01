@@ -72,7 +72,7 @@ sum_grades = GwaFormatting(sum_grades)
 print(
     "\n----- GWA SUMMARY -----\n",
     f"With a GWA of: {sum_grades:.2f}\n",
-    f"You are: {GwaDescription(sum_grades)}\n"
+    f"You are: {GwaDescription(sum_grades)}"
 )
 LowestAndHighestGwa("Highest Grade", min(original_subject_grades), original_subject_grades, subjects)
 LowestAndHighestGwa("Lowest Grade", max(original_subject_grades), original_subject_grades, subjects)
