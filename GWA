@@ -11,9 +11,8 @@ subjects = [
 subject_grades = [0, 0, 0, 0, 0, 0, 0, 0]
 original_subject_grades = [0, 0, 0, 0, 0, 0, 0, 0]
 projected_subject_grades = [0, 0, 0, 0, 0, 0, 0, 0]
-original_projected_subject_grades = [0, 0, 0, 0, 0, 0, 0, 0]
 sum_grades = 0
-projected_sum_grades
+projected_sum_grades = 0
 
 def GwaCalculation(grade, index):
     if index < 2:
@@ -45,41 +44,69 @@ def GwaFormatting(grades):
 def LowestAndHighestGwa(label, target_grade, grade, subjects):
     print(f"{label}: {target_grade:.2f}")
     print("In The Following Subject/s: ")
-    for x in range(len(grades)):
-        if grades[x] == target_grade:
-            print(f"    {subjects[i]}")
+    for counter in range(len(grade)):
+        if grade[counter] == target_grade:
+            print(f"    {subjects[counter]}")
+
+def ErrorMessage():
+    return "\nInvalid Input - Please Try Again\n"
 
 for counter in range(len(subjects)):
     while True:
-        subject_grades[counter] = float(
-            input("Input the grade for " + subjects[counter] + ": ")
-        )
-        if subject_grades[counter] < 1 or subject_grades[counter] > 5:
-            print("\nInvalid Input - Please Re-Enter \n")
-        else:
-            break
-    og_subject_grades[counter] = subject_grades[counter]
+        try:
+            subject_grades[counter] = float(
+                input("Input the grade for " + subjects[counter] + ": ")
+            )
+            if subject_grades[counter] < 1 or subject_grades[counter] > 5:
+                print(ErrorMessage())
+            else:
+                break
+        except ValueError:
+            print(ErrorMessage())
+
+    original_subject_grades[counter] = subject_grades[counter]
     projected_subject_grades[counter] = subject_grades[counter]
     sum_grades += GwaCalculation(subject_grades[counter], counter)
 sum_grades = GwaFormatting(sum_grades)
 
 print(
     "\n----- GWA SUMMARY -----\n",
-    f"With a GWA of: {sum_grades:.2f}",
-    f"You are: {GwaDescription(sum_grades)}"
+    f"With a GWA of: {sum_grades:.2f}\n",
+    f"You are: {GwaDescription(sum_grades)}\n"
 )
-LowestAndHighestGwa("Highest Grade", min(og_subject_grades), og_subject_grades, subjects)
-LowestAndHighestGwa("Lowest Grade", max(og_subject_grades), og_subject_grades, subjects)
+LowestAndHighestGwa("Highest Grade", min(original_subject_grades), original_subject_grades, subjects)
+LowestAndHighestGwa("Lowest Grade", max(original_subject_grades), original_subject_grades, subjects)
+
 print("----- PROJECTED GRADES -----")
-done_projecting = False
-lowest_grade = (max(og_subject_grades)
-lowest_index = [og_subject_grades.index(max(og_subject_grades))]
+lowest_index = original_subject_grades.index(max(original_subject_grades))
+
 while True:
-    increment = float(input(f"Target point increase for {subjects[lowest_index]}: "
-    if (
-        increment < 0
-        or og_subject_grades[og_subject_grades.index(max(og_subject_grades))] - increment < 1.00
-    ):
-        print("\nInvalid Input - Please Re-Enter\n")
-    else:
-        break
+    try:
+        increment = float(input(f"Target point increase for {subjects[lowest_index]}: "))
+        if (
+            increment < 0
+            or original_subject_grades[lowest_index] - increment < 1.00
+        ):
+            print(ErrorMessage())
+        else:
+            break
+    except ValueError:
+        print(ErrorMessage())
+
+projected_subject_grades[lowest_index] -= increment
+new_grade = projected_subject_grades[lowest_index]
+
+for counter in range(len(projected_subject_grades)):
+    projected_sum_grades += GwaCalculation(projected_subject_grades[counter], counter)
+
+projected_sum_grades = GwaFormatting(projected_sum_grades)
+
+print(
+    f"Projected Result: Raising {subjects[lowest_index]} by {increment:.2f} points to {new_grade:.2f},\n" 
+    f"    bringing your GWA to {projected_sum_grades:.2f}."
+)
+
+if GwaDescription(sum_grades) == GwaDescription(projected_sum_grades):
+    print(f"However, your overall standing would remain: {GwaDescription(projected_sum_grades)}")
+else:
+    print(f"This would change your overall standing to: {GwaDescription(projected_sum_grades)}")
