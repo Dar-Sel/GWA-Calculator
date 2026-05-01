@@ -1,3 +1,15 @@
+'''
+Project Title: GWA Calculator
+Group Members:
+    Darielle Timothy, Salino
+    Xienna Beatrix, Caffe
+    Marcvin Basti, Pagapong
+Brief Description:
+        This program calculates a seventh grade student's General Weighted Average (GWA) based on their grades in 8 specific subjects,
+    relative to the PSHS 2025 Curriculum. It also features a projection tool that allows the user to see how their overall academic 
+    standing would change if they improved their lowest grade.
+'''
+
 subjects = [
     "Mathematics 1",
     "Integrated Science",
@@ -15,6 +27,12 @@ sum_grades = 0
 projected_sum_grades = 0
 
 def GwaCalculation(grade, index):
+    '''
+    Calculates the weighted grade based on the subject's unit weight.
+    - Index 0 & 1 (Math and Science) are heavily weighted with a 1.7 multiplier.
+    - Index 2 (English) has a 1.3 multiplier.
+    - All other subjects have a standard 1.0 multiplier.
+    '''
     if index < 2:
         return grade * 1.7
     elif index == 2:
@@ -39,9 +57,17 @@ def GwaDescription(gwa):
         return "Failing :("
 
 def GwaFormatting(grades):
+    """
+    Calculates the final GWA and truncates it to two decimal places.
+    Divides the sum by 9.7, which is the total number of units across all 8 subjects.
+    """
     return int(grades / 9.7 * 100) / 100
 
 def LowestAndHighestGwa(label, target_grade, grade, subjects):
+    """
+    Finds and prints the highest or lowest grade.
+    Uses a loop to print ALL subjects that match this grade in case of a tie.
+    """
     print(f"{label}: {target_grade:.2f}")
     print("In The Following Subject/s: ")
     for counter in range(len(grade)):
@@ -52,6 +78,7 @@ def ErrorMessage():
     return "\nInvalid Input - Please Try Again\n"
 
 for counter in range(len(subjects)):
+# Uses while True to continuously ask for input until the user provides a valid number between 1.0 and 5.0
     while True:
         try:
             subject_grades[counter] = float(
@@ -63,7 +90,6 @@ for counter in range(len(subjects)):
                 break
         except ValueError:
             print(ErrorMessage())
-
     original_subject_grades[counter] = subject_grades[counter]
     projected_subject_grades[counter] = subject_grades[counter]
     sum_grades += GwaCalculation(subject_grades[counter], counter)
@@ -74,10 +100,14 @@ print(
     f"With a GWA of: {sum_grades:.2f}\n",
     f"You are: {GwaDescription(sum_grades)}"
 )
+
+# In this grading system, max() of list original_subject_grades refers to the lowest grades of recipient, and min() refers to the highest grades.
 LowestAndHighestGwa("Highest Grade", min(original_subject_grades), original_subject_grades, subjects)
 LowestAndHighestGwa("Lowest Grade", max(original_subject_grades), original_subject_grades, subjects)
 
 print("----- PROJECTED GRADES -----")
+# Find the subject with the lowest grade. 
+# We use max() because in this grading system, a higher number (e.g., 5.0) is a worse grade.
 lowest_index = original_subject_grades.index(max(original_subject_grades))
 
 while True:
@@ -93,6 +123,7 @@ while True:
     except ValueError:
         print(ErrorMessage())
 
+# Apply the improvement (Subtracting the increment improves the grade)
 projected_subject_grades[lowest_index] -= increment
 new_grade = projected_subject_grades[lowest_index]
 
