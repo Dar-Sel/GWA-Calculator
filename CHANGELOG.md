@@ -6,8 +6,8 @@ Added
 * Early version of highest and lowest grade detection feature.
 * Base input validation to prevent invalid grade entries. Add try except for value errors
 
-Changed
-*
+Changed 
+* put later
 
 [0.2.0] - 2026-03-27
 
@@ -16,4 +16,4 @@ Added
 * Expanded logic for projected GWA computation and output display.
 
 Changed
-*
+* put later
