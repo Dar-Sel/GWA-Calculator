@@ -1,4 +1,5 @@
 Changelog
+
 All notable changes to the GWA Calculator project will be documented in this file.
 
 [0.1.0] - 2026-03-26
@@ -16,5 +17,5 @@ Added
 * Projection system enhancement allowing dynamic adjustment of lowest grade by user-defined value.
 * Expanded logic for projected GWA computation and output display.
 
-[0.3.0] - 2026-03-27
+[0.3.0] - 2026-03-28
 
