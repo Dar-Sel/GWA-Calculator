@@ -21,7 +21,6 @@ subjects = [
     "P.E.H.M (Physical Education, Health, Music)"
 ]
 subject_grades = [0, 0, 0, 0, 0, 0, 0, 0]
-original_subject_grades = [0, 0, 0, 0, 0, 0, 0, 0]
 projected_subject_grades = [0, 0, 0, 0, 0, 0, 0, 0]
 sum_grades = 0
 projected_sum_grades = 0
@@ -90,7 +89,6 @@ for counter in range(len(subjects)):
                 break
         except ValueError:
             print(ErrorMessage())
-    original_subject_grades[counter] = subject_grades[counter]
     projected_subject_grades[counter] = subject_grades[counter]
     sum_grades += GwaCalculation(subject_grades[counter], counter)
 sum_grades = GwaFormatting(sum_grades)
@@ -102,20 +100,20 @@ print(
 )
 
 # In this grading system, max() of list original_subject_grades refers to the lowest grades of recipient, and min() refers to the highest grades.
-LowestAndHighestGwa("Highest Grade", min(original_subject_grades), original_subject_grades, subjects)
-LowestAndHighestGwa("Lowest Grade", max(original_subject_grades), original_subject_grades, subjects)
+LowestAndHighestGwa("Highest Grade", min(subject_grades), subject_grades, subjects)
+LowestAndHighestGwa("Lowest Grade", max(subject_grades), subject_grades, subjects)
 
 print("----- PROJECTED GRADES -----")
 # Find the subject with the lowest grade. 
 # We use max() because in this grading system, a higher number (e.g., 5.0) is a worse grade.
-lowest_index = original_subject_grades.index(max(original_subject_grades))
+lowest_index = subject_grades.index(max(subject_grades))
 
 while True:
     try:
         increment = float(input(f"Target point increase for {subjects[lowest_index]}: "))
         if (
             increment < 0
-            or original_subject_grades[lowest_index] - increment < 1.00
+            or subject_grades[lowest_index] - increment < 1.00
         ):
             print(ErrorMessage())
         else:
