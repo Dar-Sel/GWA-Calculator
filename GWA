@@ -27,7 +27,6 @@ projected_sum_grades = 0
 
 def GwaCalculation(grade, index):
     '''
-    Calculates the weighted grade based on the subject's unit weight.
     - Index 0 & 1 (Math and Science) are heavily weighted with a 1.7 multiplier.
     - Index 2 (English) has a 1.3 multiplier.
     - All other subjects have a standard 1.0 multiplier.
